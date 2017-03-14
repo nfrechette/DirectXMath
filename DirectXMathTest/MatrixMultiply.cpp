@@ -119,7 +119,7 @@ void ProfileMatrixMultiply()
 {
 	ValidateImplementations();
 
-	const __int32 num_samples = 100;
+	const __int32 num_samples = 200;
 	//const __int32 num_samples = 1;
 	const __int32 num_iterations = 1000000;
 	//const __int32 num_iterations = 1000;
