@@ -8,6 +8,8 @@
 #include "MatrixMultiply_V0.h"
 #include "MatrixMultiply_V1.h"
 #include "MatrixMultiply_V2.h"
+#include "MatrixMultiply_V3.h"
+#include "MatrixMultiply_V4.h"
 #include "Utils.h"
 
 using namespace DirectX;
@@ -938,15 +940,84 @@ __declspec(noinline) void TestCase3_V2_InlExp2(const __int32 random_seed, const 
 	printf("TestCase3,v2_inlexp2,%f\n", TicksToMS(ticks));
 }
 
-void ValidateTestCase3()
+__declspec(noinline) void TestCase3_V3_RegExp2(const __int32 random_seed, const __int32 num_iterations)
 {
+	XMMATRIX mtxA;
+	XMMATRIX mtxB;
+	TestCase3_Setup(random_seed, mtxA, mtxB);
 
+	static XMMATRIX output[64];
+
+	LONGLONG ticks = Measure(num_iterations, [&mtxA, &mtxB]()
+	{
+		for (__int32 mtx_index = 0; mtx_index < 64; ++mtx_index)
+		{
+			XMMatrixMultiply_V3_RegExp2(mtxA, mtxB, output[mtx_index]);
+		}
+	});
+
+	printf("TestCase3,v3_regexp2,%f\n", TicksToMS(ticks));
+}
+
+__declspec(noinline) void TestCase3_V3_Mem2(const __int32 random_seed, const __int32 num_iterations)
+{
+	XMMATRIX mtxA;
+	XMMATRIX mtxB;
+	TestCase3_Setup(random_seed, mtxA, mtxB);
+
+	static XMMATRIX output[64];
+
+	LONGLONG ticks = Measure(num_iterations, [&mtxA, &mtxB]()
+	{
+		for (__int32 mtx_index = 0; mtx_index < 64; ++mtx_index)
+		{
+			XMMatrixMultiply_V3_Mem2(mtxA, mtxB, output[mtx_index]);
+		}
+	});
+
+	printf("TestCase3,v3_mem2,%f\n", TicksToMS(ticks));
+}
+
+__declspec(noinline) void TestCase3_V4_RegExp2(const __int32 random_seed, const __int32 num_iterations)
+{
+	XMMATRIX mtxA;
+	XMMATRIX mtxB;
+	TestCase3_Setup(random_seed, mtxA, mtxB);
+
+	static XMMATRIX output[64];
+
+	LONGLONG ticks = Measure(num_iterations, [&mtxA, &mtxB]()
+	{
+		for (__int32 mtx_index = 0; mtx_index < 64; ++mtx_index)
+		{
+			XMMatrixMultiply_V4_RegExp2(mtxA, mtxB, output[mtx_index]);
+		}
+	});
+
+	printf("TestCase3,v4_regexp2,%f\n", TicksToMS(ticks));
+}
+
+__declspec(noinline) void TestCase3_V4_Mem2(const __int32 random_seed, const __int32 num_iterations)
+{
+	XMMATRIX mtxA;
+	XMMATRIX mtxB;
+	TestCase3_Setup(random_seed, mtxA, mtxB);
+
+	static XMMATRIX output[64];
+
+	LONGLONG ticks = Measure(num_iterations, [&mtxA, &mtxB]()
+	{
+		for (__int32 mtx_index = 0; mtx_index < 64; ++mtx_index)
+		{
+			XMMatrixMultiply_V4_Mem2(mtxA, mtxB, output[mtx_index]);
+		}
+	});
+
+	printf("TestCase3,v4_mem2,%f\n", TicksToMS(ticks));
 }
 
 void TestCase3(const __int32 random_seed, const __int32 num_samples, const __int32 num_iterations)
 {
-	ValidateTestCase3();
-
 	for (__int32 i = 0; i < num_samples; ++i) TestCase3_Ref_Reg(random_seed, num_iterations);
 	for (__int32 i = 0; i < num_samples; ++i) TestCase3_Ref_Reg2(random_seed, num_iterations);
 	for (__int32 i = 0; i < num_samples; ++i) TestCase3_Ref_RegFlip(random_seed, num_iterations);
@@ -998,4 +1069,10 @@ void TestCase3(const __int32 random_seed, const __int32 num_samples, const __int
 	for (__int32 i = 0; i < num_samples; ++i) TestCase3_V2_Inl2(random_seed, num_iterations);
 	for (__int32 i = 0; i < num_samples; ++i) TestCase3_V2_InlExp(random_seed, num_iterations);
 	for (__int32 i = 0; i < num_samples; ++i) TestCase3_V2_InlExp2(random_seed, num_iterations);
+
+	for (__int32 i = 0; i < num_samples; ++i) TestCase3_V3_RegExp2(random_seed, num_iterations);
+	for (__int32 i = 0; i < num_samples; ++i) TestCase3_V3_Mem2(random_seed, num_iterations);
+
+	for (__int32 i = 0; i < num_samples; ++i) TestCase3_V4_RegExp2(random_seed, num_iterations);
+	for (__int32 i = 0; i < num_samples; ++i) TestCase3_V4_Mem2(random_seed, num_iterations);
 }

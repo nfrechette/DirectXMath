@@ -8,6 +8,8 @@
 #include "MatrixMultiply_V0.h"
 #include "MatrixMultiply_V1.h"
 #include "MatrixMultiply_V2.h"
+#include "MatrixMultiply_V3.h"
+#include "MatrixMultiply_V4.h"
 #include "Utils.h"
 
 using namespace DirectX;
@@ -940,15 +942,84 @@ __declspec(noinline) void TestCase2_V2_InlExp2(const __int32 random_seed, const 
 	printf("TestCase2,v2_inlexp2,%f\n", TicksToMS(ticks));
 }
 
-void ValidateTestCase2()
+__declspec(noinline) void TestCase2_V3_RegExp2(const __int32 random_seed, const __int32 num_iterations)
 {
+	XMMATRIX matrices_local[64];
+	XMMATRIX matrices_object[64];
+	TestCase2_Setup(random_seed, matrices_local);
 
+	LONGLONG ticks = Measure(num_iterations, [&matrices_local, &matrices_object]()
+	{
+		matrices_object[0] = matrices_local[0];
+
+		for (__int32 mtx_index = 1; mtx_index < 64; ++mtx_index)
+		{
+			XMMatrixMultiply_V3_RegExp2(matrices_local[mtx_index], matrices_object[mtx_index - 1], matrices_object[mtx_index]);
+		}
+	});
+
+	printf("TestCase2,v3_regexp2,%f\n", TicksToMS(ticks));
+}
+
+__declspec(noinline) void TestCase2_V3_Mem2(const __int32 random_seed, const __int32 num_iterations)
+{
+	XMMATRIX matrices_local[64];
+	XMMATRIX matrices_object[64];
+	TestCase2_Setup(random_seed, matrices_local);
+
+	LONGLONG ticks = Measure(num_iterations, [&matrices_local, &matrices_object]()
+	{
+		matrices_object[0] = matrices_local[0];
+
+		for (__int32 mtx_index = 1; mtx_index < 64; ++mtx_index)
+		{
+			XMMatrixMultiply_V3_Mem2(matrices_local[mtx_index], matrices_object[mtx_index - 1], matrices_object[mtx_index]);
+		}
+	});
+
+	printf("TestCase2,v3_mem2,%f\n", TicksToMS(ticks));
+}
+
+__declspec(noinline) void TestCase2_V4_RegExp2(const __int32 random_seed, const __int32 num_iterations)
+{
+	XMMATRIX matrices_local[64];
+	XMMATRIX matrices_object[64];
+	TestCase2_Setup(random_seed, matrices_local);
+
+	LONGLONG ticks = Measure(num_iterations, [&matrices_local, &matrices_object]()
+	{
+		matrices_object[0] = matrices_local[0];
+
+		for (__int32 mtx_index = 1; mtx_index < 64; ++mtx_index)
+		{
+			XMMatrixMultiply_V4_RegExp2(matrices_local[mtx_index], matrices_object[mtx_index - 1], matrices_object[mtx_index]);
+		}
+	});
+
+	printf("TestCase2,v4_regexp2,%f\n", TicksToMS(ticks));
+}
+
+__declspec(noinline) void TestCase2_V4_Mem2(const __int32 random_seed, const __int32 num_iterations)
+{
+	XMMATRIX matrices_local[64];
+	XMMATRIX matrices_object[64];
+	TestCase2_Setup(random_seed, matrices_local);
+
+	LONGLONG ticks = Measure(num_iterations, [&matrices_local, &matrices_object]()
+	{
+		matrices_object[0] = matrices_local[0];
+
+		for (__int32 mtx_index = 1; mtx_index < 64; ++mtx_index)
+		{
+			XMMatrixMultiply_V4_Mem2(matrices_local[mtx_index], matrices_object[mtx_index - 1], matrices_object[mtx_index]);
+		}
+	});
+
+	printf("TestCase2,v4_mem2,%f\n", TicksToMS(ticks));
 }
 
 void TestCase2(const __int32 random_seed, const __int32 num_samples, const __int32 num_iterations)
 {
-	ValidateTestCase2();
-
 	for (__int32 i = 0; i < num_samples; ++i) TestCase2_Ref_Reg(random_seed, num_iterations);
 	for (__int32 i = 0; i < num_samples; ++i) TestCase2_Ref_Reg2(random_seed, num_iterations);
 	for (__int32 i = 0; i < num_samples; ++i) TestCase2_Ref_RegFlip(random_seed, num_iterations);
@@ -1000,4 +1071,10 @@ void TestCase2(const __int32 random_seed, const __int32 num_samples, const __int
 	for (__int32 i = 0; i < num_samples; ++i) TestCase2_V2_Inl2(random_seed, num_iterations);
 	for (__int32 i = 0; i < num_samples; ++i) TestCase2_V2_InlExp(random_seed, num_iterations);
 	for (__int32 i = 0; i < num_samples; ++i) TestCase2_V2_InlExp2(random_seed, num_iterations);
+
+	for (__int32 i = 0; i < num_samples; ++i) TestCase2_V3_RegExp2(random_seed, num_iterations);
+	for (__int32 i = 0; i < num_samples; ++i) TestCase2_V3_Mem2(random_seed, num_iterations);
+
+	for (__int32 i = 0; i < num_samples; ++i) TestCase2_V4_RegExp2(random_seed, num_iterations);
+	for (__int32 i = 0; i < num_samples; ++i) TestCase2_V4_Mem2(random_seed, num_iterations);
 }

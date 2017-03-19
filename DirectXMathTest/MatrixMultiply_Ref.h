@@ -258,7 +258,7 @@ inline void XM_CALLCONV XMMatrixMultiply_Ref_RegFlip2_Impl(FXMMATRIX M2, CXMMATR
 	mResult.r[3] = vX;
 }
 
-inline XMMATRIX XM_CALLCONV XMMatrixMultiply_Ref_RegExp_Impl(XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3, CXMMATRIX M1)
+inline XMMATRIX XM_CALLCONV XMMatrixMultiply_Ref_RegExp_Impl(CXMMATRIX M1, XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3)
 {
 	XMMATRIX mResult;
 	// Use vW to hold the original row
@@ -321,7 +321,7 @@ inline XMMATRIX XM_CALLCONV XMMatrixMultiply_Ref_RegExp_Impl(XMVECTOR M2R0, XMVE
 	return mResult;
 }
 
-inline void XM_CALLCONV XMMatrixMultiply_Ref_RegExp2_Impl(XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3, CXMMATRIX M1, XMMATRIX& mResult)
+inline void XM_CALLCONV XMMatrixMultiply_Ref_RegExp2_Impl(CXMMATRIX M1, XMMATRIX& mResult, XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3)
 {
 	// Use vW to hold the original row
 	XMVECTOR vW = M1.r[0];
@@ -640,7 +640,7 @@ __forceinline void XM_CALLCONV XMMatrixMultiply_Ref_Inl2(FXMMATRIX M1, CXMMATRIX
 	mResult.r[3] = vX;
 }
 
-__forceinline XMMATRIX XM_CALLCONV XMMatrixMultiply_Ref_InlExp_Impl(XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3, CXMMATRIX M1)
+__forceinline XMMATRIX XM_CALLCONV XMMatrixMultiply_Ref_InlExp_Impl(CXMMATRIX M1, XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3)
 {
 	XMMATRIX mResult;
 	// Use vW to hold the original row
@@ -703,7 +703,7 @@ __forceinline XMMATRIX XM_CALLCONV XMMatrixMultiply_Ref_InlExp_Impl(XMVECTOR M2R
 	return mResult;
 }
 
-__forceinline void XM_CALLCONV XMMatrixMultiply_Ref_InlExp2_Impl(XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3, CXMMATRIX M1, XMMATRIX& mResult)
+__forceinline void XM_CALLCONV XMMatrixMultiply_Ref_InlExp2_Impl(CXMMATRIX M1, XMMATRIX& mResult, XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3)
 {
 	// Use vW to hold the original row
 	XMVECTOR vW = M1.r[0];
@@ -768,7 +768,7 @@ __forceinline void XM_CALLCONV XMMatrixMultiply_Ref_InlExp2_Impl(XMVECTOR M2R0, 
 
 #define XMMatrixMultiply_Ref_RegFlip(M1, M2) XMMatrixMultiply_Ref_RegFlip_Impl(M2, M1)
 #define XMMatrixMultiply_Ref_RegFlip2(M1, M2, Result) XMMatrixMultiply_Ref_RegFlip2_Impl(M2, M1, Result)
-#define XMMatrixMultiply_Ref_RegExp(M1, M2) XMMatrixMultiply_Ref_RegExp_Impl(M2.r[0], M2.r[1], M2.r[2], M2.r[3], M1)
-#define XMMatrixMultiply_Ref_RegExp2(M1, M2, Result) XMMatrixMultiply_Ref_RegExp2_Impl(M2.r[0], M2.r[1], M2.r[2], M2.r[3], M1, Result)
-#define XMMatrixMultiply_Ref_InlExp(M1, M2) XMMatrixMultiply_Ref_InlExp_Impl(M2.r[0], M2.r[1], M2.r[2], M2.r[3], M1)
-#define XMMatrixMultiply_Ref_InlExp2(M1, M2, Result) XMMatrixMultiply_Ref_InlExp2_Impl(M2.r[0], M2.r[1], M2.r[2], M2.r[3], M1, Result)
+#define XMMatrixMultiply_Ref_RegExp(M1, M2) XMMatrixMultiply_Ref_RegExp_Impl(M1, M2.r[0], M2.r[1], M2.r[2], M2.r[3])
+#define XMMatrixMultiply_Ref_RegExp2(M1, M2, Result) XMMatrixMultiply_Ref_RegExp2_Impl(M1, Result, M2.r[0], M2.r[1], M2.r[2], M2.r[3])
+#define XMMatrixMultiply_Ref_InlExp(M1, M2) XMMatrixMultiply_Ref_InlExp_Impl(M1, M2.r[0], M2.r[1], M2.r[2], M2.r[3])
+#define XMMatrixMultiply_Ref_InlExp2(M1, M2, Result) XMMatrixMultiply_Ref_InlExp2_Impl(M1, Result, M2.r[0], M2.r[1], M2.r[2], M2.r[3])

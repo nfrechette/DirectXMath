@@ -7,6 +7,8 @@
 #include "MatrixMultiply_V0.h"
 #include "MatrixMultiply_V1.h"
 #include "MatrixMultiply_V2.h"
+#include "MatrixMultiply_V3.h"
+#include "MatrixMultiply_V4.h"
 #include "Utils.h"
 
 using namespace DirectX;
@@ -109,6 +111,12 @@ void ValidateImplementations()
 	XMMatrixMultiply_V2_Inl2(mtx0, mtx1, tmp_mtx); EnsureMatrixEqual(ref_mtx, tmp_mtx);
 	EnsureMatrixEqual(ref_mtx, XMMatrixMultiply_V2_InlExp(mtx0, mtx1));
 	XMMatrixMultiply_V2_InlExp2(mtx0, mtx1, tmp_mtx); EnsureMatrixEqual(ref_mtx, tmp_mtx);
+
+	XMMatrixMultiply_V3_RegExp2(mtx0, mtx1, tmp_mtx); EnsureMatrixEqual(ref_mtx, tmp_mtx);
+	XMMatrixMultiply_V3_Mem2(mtx0, mtx1, tmp_mtx); EnsureMatrixEqual(ref_mtx, tmp_mtx);
+
+	XMMatrixMultiply_V4_RegExp2(mtx0, mtx1, tmp_mtx); EnsureMatrixEqual(ref_mtx, tmp_mtx);
+	XMMatrixMultiply_V4_Mem2(mtx0, mtx1, tmp_mtx); EnsureMatrixEqual(ref_mtx, tmp_mtx);
 }
 
 extern void TestCase1(const __int32 random_seed, const __int32 num_samples, const __int32 num_iterations);

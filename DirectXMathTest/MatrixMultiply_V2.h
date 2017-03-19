@@ -116,7 +116,7 @@ inline void XM_CALLCONV XMMatrixMultiply_V2_RegFlip2_Impl(FXMMATRIX M2, CXMMATRI
 	}
 }
 
-inline XMMATRIX XM_CALLCONV XMMatrixMultiply_V2_RegExp_Impl(XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3, CXMMATRIX M1)
+inline XMMATRIX XM_CALLCONV XMMatrixMultiply_V2_RegExp_Impl(CXMMATRIX M1, XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3)
 {
 	XMMATRIX mResult;
 	for (int i = 3; i >= 0; --i)
@@ -142,7 +142,7 @@ inline XMMATRIX XM_CALLCONV XMMatrixMultiply_V2_RegExp_Impl(XMVECTOR M2R0, XMVEC
 	return mResult;
 }
 
-inline void XM_CALLCONV XMMatrixMultiply_V2_RegExp2_Impl(XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3, CXMMATRIX M1, XMMATRIX& mResult)
+inline void XM_CALLCONV XMMatrixMultiply_V2_RegExp2_Impl(CXMMATRIX M1, XMMATRIX& mResult, XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3)
 {
 	for (int i = 3; i >= 0; --i)
 	{
@@ -276,7 +276,7 @@ __forceinline void XM_CALLCONV XMMatrixMultiply_V2_Inl2(FXMMATRIX M1, CXMMATRIX 
 	}
 }
 
-__forceinline XMMATRIX XM_CALLCONV XMMatrixMultiply_V2_InlExp_Impl(XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3, CXMMATRIX M1)
+__forceinline XMMATRIX XM_CALLCONV XMMatrixMultiply_V2_InlExp_Impl(CXMMATRIX M1, XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3)
 {
 	XMMATRIX mResult;
 	for (int i = 3; i >= 0; --i)
@@ -302,7 +302,7 @@ __forceinline XMMATRIX XM_CALLCONV XMMatrixMultiply_V2_InlExp_Impl(XMVECTOR M2R0
 	return mResult;
 }
 
-__forceinline void XM_CALLCONV XMMatrixMultiply_V2_InlExp2_Impl(XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3, CXMMATRIX M1, XMMATRIX& mResult)
+__forceinline void XM_CALLCONV XMMatrixMultiply_V2_InlExp2_Impl(CXMMATRIX M1, XMMATRIX& mResult, XMVECTOR M2R0, XMVECTOR M2R1, XMVECTOR M2R2, XMVECTOR M2R3)
 {
 	for (int i = 3; i >= 0; --i)
 	{
@@ -330,7 +330,7 @@ __forceinline void XM_CALLCONV XMMatrixMultiply_V2_InlExp2_Impl(XMVECTOR M2R0, X
 
 #define XMMatrixMultiply_V2_RegFlip(M1, M2) XMMatrixMultiply_V2_RegFlip_Impl(M2, M1)
 #define XMMatrixMultiply_V2_RegFlip2(M1, M2, Result) XMMatrixMultiply_V2_RegFlip2_Impl(M2, M1, Result)
-#define XMMatrixMultiply_V2_RegExp(M1, M2) XMMatrixMultiply_V2_RegExp_Impl(M2.r[0], M2.r[1], M2.r[2], M2.r[3], M1)
-#define XMMatrixMultiply_V2_RegExp2(M1, M2, Result) XMMatrixMultiply_V2_RegExp2_Impl(M2.r[0], M2.r[1], M2.r[2], M2.r[3], M1, Result)
-#define XMMatrixMultiply_V2_InlExp(M1, M2) XMMatrixMultiply_V2_InlExp_Impl(M2.r[0], M2.r[1], M2.r[2], M2.r[3], M1)
-#define XMMatrixMultiply_V2_InlExp2(M1, M2, Result) XMMatrixMultiply_V2_InlExp2_Impl(M2.r[0], M2.r[1], M2.r[2], M2.r[3], M1, Result)
+#define XMMatrixMultiply_V2_RegExp(M1, M2) XMMatrixMultiply_V2_RegExp_Impl(M1, M2.r[0], M2.r[1], M2.r[2], M2.r[3])
+#define XMMatrixMultiply_V2_RegExp2(M1, M2, Result) XMMatrixMultiply_V2_RegExp2_Impl(M1, Result, M2.r[0], M2.r[1], M2.r[2], M2.r[3])
+#define XMMatrixMultiply_V2_InlExp(M1, M2) XMMatrixMultiply_V2_InlExp_Impl(M1, M2.r[0], M2.r[1], M2.r[2], M2.r[3])
+#define XMMatrixMultiply_V2_InlExp2(M1, M2, Result) XMMatrixMultiply_V2_InlExp2_Impl(M1, Result, M2.r[0], M2.r[1], M2.r[2], M2.r[3])

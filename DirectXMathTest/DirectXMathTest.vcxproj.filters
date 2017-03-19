@@ -39,6 +39,12 @@
     <ClInclude Include="MatrixMultiply_V2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MatrixMultiply_V3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixMultiply_V4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -59,5 +65,13 @@
     <ClCompile Include="TestCase3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="MatrixMultiply_V3.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="MatrixMultiply_V4.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
   </ItemGroup>
 </Project>

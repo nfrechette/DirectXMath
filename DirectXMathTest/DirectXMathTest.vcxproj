@@ -53,6 +53,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -156,6 +157,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MatrixMultiply_V2.h" />
+    <ClInclude Include="MatrixMultiply_V3.h" />
+    <ClInclude Include="MatrixMultiply_V4.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="MatrixMultiply_Ref.h" />
     <ClInclude Include="MatrixMultiply_V0.h" />
@@ -171,7 +174,16 @@
     <ClCompile Include="TestCase2.cpp" />
     <ClCompile Include="TestCase3.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <MASM Include="MatrixMultiply_V3.asm">
+      <FileType>Document</FileType>
+    </MASM>
+    <MASM Include="MatrixMultiply_V4.asm">
+      <FileType>Document</FileType>
+    </MASM>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
   </ImportGroup>
 </Project>
