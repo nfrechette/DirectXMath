@@ -2,6 +2,8 @@
 #include "Inc\DirectXMath.h"
 
 #include <random>
+#include <thread>
+#include <sstream>
 
 #include "MatrixMultiply_Ref.h"
 #include "MatrixMultiply_V0.h"
@@ -10,6 +12,8 @@
 #include "MatrixMultiply_V3.h"
 #include "MatrixMultiply_V4.h"
 #include "Utils.h"
+
+#define USE_MULTITHREADING		0
 
 using namespace DirectX;
 
@@ -119,9 +123,9 @@ void ValidateImplementations()
 	XMMatrixMultiply_V4_Mem2(mtx0, mtx1, tmp_mtx); EnsureMatrixEqual(ref_mtx, tmp_mtx);
 }
 
-extern void TestCase1(const __int32 random_seed, const __int32 num_samples, const __int32 num_iterations);
-extern void TestCase2(const __int32 random_seed, const __int32 num_samples, const __int32 num_iterations);
-extern void TestCase3(const __int32 random_seed, const __int32 num_samples, const __int32 num_iterations);
+extern void TestCase1(const __int32 random_seed, const __int32 num_samples, const __int32 num_iterations, std::stringstream* output);
+extern void TestCase2(const __int32 random_seed, const __int32 num_samples, const __int32 num_iterations, std::stringstream* output);
+extern void TestCase3(const __int32 random_seed, const __int32 num_samples, const __int32 num_iterations, std::stringstream* output);
 
 void ProfileMatrixMultiply()
 {
@@ -132,7 +136,25 @@ void ProfileMatrixMultiply()
 	const __int32 num_iterations = 1000000;
 	//const __int32 num_iterations = 1000;
 
-	TestCase1(random_seed, num_samples, num_iterations);
-	TestCase2(random_seed, num_samples, num_iterations);
-	TestCase3(random_seed, num_samples, num_iterations);
+	std::stringstream test_case_1_output;
+	std::stringstream test_case_2_output;
+	std::stringstream test_case_3_output;
+
+#if USE_MULTITHREADING
+	std::thread test_case_1(TestCase1, random_seed, num_samples, num_iterations, &test_case_1_output);
+	std::thread test_case_2(TestCase2, random_seed, num_samples, num_iterations, &test_case_2_output);
+	std::thread test_case_3(TestCase3, random_seed, num_samples, num_iterations, &test_case_3_output);
+
+	test_case_1.join();
+	test_case_2.join();
+	test_case_3.join();
+#else
+	TestCase1(random_seed, num_samples, num_iterations, &test_case_1_output);
+	TestCase2(random_seed, num_samples, num_iterations, &test_case_2_output);
+	TestCase3(random_seed, num_samples, num_iterations, &test_case_3_output);
+#endif
+
+	printf(test_case_1_output.str().c_str());
+	printf(test_case_2_output.str().c_str());
+	printf(test_case_3_output.str().c_str());
 }
