@@ -13,6 +13,8 @@
 #include "MatrixMultiply_V4.h"
 #include "Utils.h"
 
+// Note that enabling multi threading is handy for quick testing but the results will vary.
+// All the test cases write to arrays which will stress the memory bandwidth which can slow things down a bit.
 #define USE_MULTITHREADING		0
 
 using namespace DirectX;
@@ -131,8 +133,8 @@ void ProfileMatrixMultiply()
 {
 	ValidateImplementations();
 
-	const __int32 num_samples = 200;
-	//const __int32 num_samples = 1;
+	const __int32 num_samples = 100;
+	//const __int32 num_samples = 4;
 	const __int32 num_iterations = 1000000;
 	//const __int32 num_iterations = 1000;
 
@@ -141,9 +143,18 @@ void ProfileMatrixMultiply()
 	std::stringstream test_case_3_output;
 
 #if USE_MULTITHREADING
-	std::thread test_case_1(TestCase1, random_seed, num_samples, num_iterations, &test_case_1_output);
-	std::thread test_case_2(TestCase2, random_seed, num_samples, num_iterations, &test_case_2_output);
-	std::thread test_case_3(TestCase3, random_seed, num_samples, num_iterations, &test_case_3_output);
+	std::thread test_case_1([&]() {
+		SetThreadAffinityMask(GetCurrentThread(), 0x01);
+		TestCase1(random_seed, num_samples, num_iterations, &test_case_1_output);
+	});
+	std::thread test_case_2([&]() {
+		SetThreadAffinityMask(GetCurrentThread(), 0x04);
+		TestCase2(random_seed, num_samples, num_iterations, &test_case_2_output);
+	});
+	std::thread test_case_3([&]() {
+		SetThreadAffinityMask(GetCurrentThread(), 0x10);
+		TestCase3(random_seed, num_samples, num_iterations, &test_case_3_output);
+	});
 
 	test_case_1.join();
 	test_case_2.join();
